@@ -1,14 +1,14 @@
 version: '3.9'
 
 services:
-  djangoapp:
-    container_name: djangoapp
+  django_core:
+    container_name: django_core
     build:
       context: .
     ports:
       - 8000:8000
     volumes:
-      - ./djangoapp:/djangoapp
+      - ./django_core:/django_core
       - ./data/web/static:/data/web/static/
       - ./data/web/media:/data/web/media/
     env_file:
