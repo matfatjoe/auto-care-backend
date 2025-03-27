@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   django_core:
     container_name: django_core
@@ -18,7 +16,7 @@ services:
   psql:
     container_name: psql
     image: postgres:13-alpine
-    volumes:
-      - ./data/postgres/data:/var/lib/postgresql/data/
+    tmpfs:
+      - /var/lib/postgresql/data
     env_file:
       - ./dotenv_files/.env

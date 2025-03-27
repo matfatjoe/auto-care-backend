@@ -58,24 +58,34 @@ O projeto será dividido em três repositórios principais:
 
 ## 🔧 Comandos Úteis
 ### Backend (Django)
+Rodar o servidor Django:
+```bash
+docker-compose up
+```
+
 Criar um novo app dentro do Django:
 ```bash
-docker-compose run django_core python manage.py startapp <nome_do_app>
+docker-compose exec django_core python manage.py startapp <nome_do_app>
 ```
 
 Rodar migrações:
 ```bash
-docker-compose run django_core python manage.py migrate
+docker-compose exec django_core python manage.py migrate
 ```
 
 Criar um superusuário para acessar o admin:
 ```bash
-docker-compose run django_core python manage.py createsuperuser
+docker-compose exec django_core python manage.py createsuperuser
 ```
 
-Rodar o servidor Django:
+Instalar dependências:
 ```bash
-docker-compose up
+docker-compose exec django_core pip install -r requirements.txt
+```
+
+Rodar testes Django:
+```bash
+docker-compose exec django_core python manage.py test
 ```
 
 ---
