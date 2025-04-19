@@ -93,17 +93,17 @@ docker-compose up --build
 
 Criar um novo app Django:
 ```bash
-docker-compose run django_core python manage.py startapp <nome_do_app>
+docker-compose exec django_core python manage.py startapp <nome_do_app>
 ```
 
 Rodar migrações:
 ```bash
-docker-compose run django_core python manage.py migrate
+docker-compose exec django_core python manage.py migrate
 ```
 
 Criar superusuário:
 ```bash
-docker-compose run django_core python manage.py createsuperuser
+docker-compose exec django_core python manage.py createsuperuser
 ```
 
 Rodar testes:
