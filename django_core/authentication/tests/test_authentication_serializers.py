@@ -1,6 +1,6 @@
 import pytest
 from django.contrib.auth.models import User
-from authentication.serializers import UserRegistrationSerializer
+from authentication.serializers import UserRegistrationSerializer, UserLoginSerializer
 
 
 @pytest.mark.django_db
@@ -46,3 +46,38 @@ class TestUserRegistrationSerializer:
         serializer = UserRegistrationSerializer(data=data)
         assert not serializer.is_valid()
         assert "username" in serializer.errors
+
+
+@pytest.mark.django_db
+class TestUserLoginSerializer:
+
+    def setup_method(self):
+        self.user = User.objects.create_user(
+            username="johndoe",
+            email="john@example.com",
+            password="securepass123"
+        )
+
+    def test_valid_login_returns_user(self):
+        data = {"username": "johndoe", "password": "securepass123"}
+        serializer = UserLoginSerializer(data=data)
+        assert serializer.is_valid()
+        assert serializer.validated_data["user"] == self.user
+
+    def test_login_fails_with_invalid_username(self):
+        data = {"username": "wronguser", "password": "securepass123"}
+        serializer = UserLoginSerializer(data=data)
+        assert not serializer.is_valid()
+        assert "non_field_errors" in serializer.errors
+
+    def test_login_fails_with_wrong_password(self):
+        data = {"username": "johndoe", "password": "wrongpass"}
+        serializer = UserLoginSerializer(data=data)
+        assert not serializer.is_valid()
+        assert "non_field_errors" in serializer.errors
+
+    def test_login_fails_with_missing_fields(self):
+        serializer = UserLoginSerializer(data={})
+        assert not serializer.is_valid()
+        assert "username" in serializer.errors
+        assert "password" in serializer.errors
