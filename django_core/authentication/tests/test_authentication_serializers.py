@@ -81,3 +81,14 @@ class TestUserLoginSerializer:
         assert not serializer.is_valid()
         assert "username" in serializer.errors
         assert "password" in serializer.errors
+
+    def test_login_with_inactive_user(self):
+        user = User.objects.create_user(
+            username='inactive', password='testpass123')
+        user.is_active = False
+        user.save()
+
+        data = {'username': 'inactive', 'password': 'testpass123'}
+        serializer = UserLoginSerializer(data=data)
+        assert not serializer.is_valid()
+        assert 'non_field_errors' in serializer.errors
