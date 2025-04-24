@@ -37,7 +37,7 @@ class TestProfileModel:
         user = User.objects.create_user(username="mike", password="123123")
         profile = Profile.objects.create(
             user=user, full_name="Mike Tyson", phone="1234")
-        assert user.profile == profile  # acessando via reverse relation
+        assert user.profile == profile
 
     def test_created_at_and_updated_at_are_set(self):
         user = User.objects.create_user(
@@ -54,7 +54,6 @@ class TestProfileModel:
         profile = Profile.objects.create(
             user=user, full_name="Before Update", phone="123")
 
-        # Simula alteração e save
         original_updated_at = profile.updated_at
         profile.full_name = "After Update"
         profile.save()

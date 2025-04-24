@@ -1,9 +1,9 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import UserLoginSerializer
-from rest_framework.permissions import IsAuthenticated
+from .serializers import UserLoginSerializer, RegisterSerializer
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
 class LoginView(APIView):
@@ -29,15 +29,22 @@ class LoginView(APIView):
 
 
 class LogoutView(APIView):
-    """
-    View para logout de usuário. Para a autenticação baseada em sessões.
-    """
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
         if not request.user.is_authenticated:
             return Response({"detail": "Authentication credentials were not provided."}, status=status.HTTP_401_UNAUTHORIZED)
 
-        # Se o usuário está autenticado, realiza o logout
-        request.session.flush()  # Destroi a sessão do usuário
+        request.session.flush()
         return Response({"detail": "Logout realizado com sucesso."}, status=status.HTTP_200_OK)
+
+
+class RegisterView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
