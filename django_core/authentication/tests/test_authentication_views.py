@@ -2,9 +2,9 @@ from rest_framework import status
 from django.contrib.auth.models import User
 import pytest
 
-LOGIN_URL = "/api/auth/login/"
-LOGOUT_URL = "/api/auth/logout/"
-REGISTER_URL = "/api/auth/register/"
+LOGIN_URL = "/api/auth/login"
+LOGOUT_URL = "/api/auth/logout"
+REGISTER_URL = "/api/auth/register"
 
 
 class RegistrationPayload:
