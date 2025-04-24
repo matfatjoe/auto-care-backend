@@ -1,0 +1,4 @@
+#!/bin/sh
+
+flake8 django_core
+pytest django_core

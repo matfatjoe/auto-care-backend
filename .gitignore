@@ -176,3 +176,5 @@ cython_debug/
 
 data/*
 test.rest
+node_modules/*
+package-lock.json

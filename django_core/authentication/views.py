@@ -33,7 +33,9 @@ class LogoutView(APIView):
 
     def post(self, request):
         if not request.user.is_authenticated:
-            return Response({"detail": "Authentication credentials were not provided."}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                {"detail": "Authentication credentials were not provided."
+                 }, status=status.HTTP_401_UNAUTHORIZED)
 
         request.session.flush()
         return Response({"detail": "Logout realizado com sucesso."}, status=status.HTTP_200_OK)

@@ -2,7 +2,6 @@ import pytest
 from django.contrib.auth.models import User
 from authentication.models import Profile
 from django.utils.timezone import now
-from datetime import timedelta
 from django.core.exceptions import ValidationError
 
 
