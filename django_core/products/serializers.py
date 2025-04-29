@@ -19,6 +19,10 @@ class ProductSerializer(serializers.ModelSerializer):
             "stock_control_enabled",
         ]
         read_only_fields = ["id", "created_at", "updated_at"]
+        extra_kwargs = {
+            "user": {"read_only": True},
+            "is_deleted": {"write_only": True},
+        }
 
     def validate_last_purchase_price(self, value):
         if value < 0:
