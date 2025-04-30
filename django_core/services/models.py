@@ -43,9 +43,10 @@ class Service(models.Model):
 
 
 class ServiceProduct(models.Model):
+    user = models.ForeignKey('authentication.Profile', on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     product = models.ForeignKey('products.Product', on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
+    quantity = models.DecimalField(max_digits=10, decimal_places=2)
 
     def clean(self):
         if self.service is None:

@@ -122,15 +122,16 @@ class TestProductView:
         assert "last_purchase_price" in response.data
         assert "sale_price" in response.data
         assert "stock_quantity" in response.data
-    def test_update_product_missing_required_fields(self, api_client, create_profile, product_supply):
+
+    def test_update_product_missing_required_fields(
+        self, api_client, create_profile, product_supply
+    ):
         """Tests the failure to update with incomplete data."""
         profile = create_profile()
         product = product_supply(profile=profile)
         api_client.force_authenticate(user=profile.user)
 
-        data = {
-            "name": ""
-        }
+        data = {"name": ""}
 
         response = api_client.patch(UPDATE_URL.format(product.id), data)
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -146,11 +147,12 @@ class TestProductView:
         response = api_client.post(CREATE_URL, {})
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
-    def test_access_other_user_product(self, api_client, create_user, create_profile, product_supply):
+    def test_access_other_user_product(
+        self, api_client, create_user, create_profile, product_supply
+    ):
         """Tests that a user cannot access or edit another user's products."""
         user1 = create_user(username="user1", password="password123")
         profile1 = create_profile(user=user1)
-        
         user2 = create_user(username="user2", password="password123")
         profile2 = create_profile(user2)
         product = product_supply(profile=profile1)
