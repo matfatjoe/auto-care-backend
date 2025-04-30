@@ -40,3 +40,17 @@ class Service(models.Model):
             raise ValidationError("Base price cannot be null or negative.")
         if self.estimated_time is None or self.estimated_time < 0:
             raise ValidationError("Estimated time cannot be null or negative.")
+
+
+class ServiceProduct(models.Model):
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    product = models.ForeignKey('products.Product', on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+    def clean(self):
+        if self.service is None:
+            raise ValidationError("Service cannot be null.")
+        if self .product is None:
+            raise ValidationError("Product cannot be null.")
+        if self.quantity is None or self.quantity <= 0:
+            raise ValidationError("Quantity must be greater than zero.")
