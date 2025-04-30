@@ -12,7 +12,7 @@ class TestServiceModel:
             user=profile,
             name="Interior Cleaning",
             description="Full interior clean",
-            pricing_type=Service.PRINCING_TYPE_FIXED,
+            pricing_type=Service.PRICING_TYPE_FIXED,
             base_price=150.00,
             estimated_time=90
         )
@@ -21,7 +21,7 @@ class TestServiceModel:
         assert service.user == profile
         assert service.name == "Interior Cleaning"
         assert service.description == "Full interior clean"
-        assert service.pricing_type == Service.PRINCING_TYPE_FIXED
+        assert service.pricing_type == Service.PRICING_TYPE_FIXED
         assert service.base_price == 150.00
         assert service.estimated_time == 90
         assert service.is_deleted is False
@@ -35,7 +35,7 @@ class TestServiceModel:
                 user=profile,
                 name="",
                 description="Full interior clean",
-                pricing_type=Service.PRINCING_TYPE_FIXED,
+                pricing_type=Service.PRICING_TYPE_FIXED,
                 base_price=150.00,
                 estimated_time=90
             ).full_clean()
@@ -47,7 +47,7 @@ class TestServiceModel:
                 user=profile,
                 name="Interior Cleaning",
                 description="",
-                pricing_type=Service.PRINCING_TYPE_FIXED,
+                pricing_type=Service.PRICING_TYPE_FIXED,
                 base_price=150.00,
                 estimated_time=90
             ).full_clean()
@@ -71,7 +71,7 @@ class TestServiceModel:
                 user=profile,
                 name="Interior Cleaning",
                 description="Full interior clean",
-                pricing_type=Service.PRINCING_TYPE_FIXED,
+                pricing_type=Service.PRICING_TYPE_FIXED,
                 base_price=-150.00,
                 estimated_time=90
             ).full_clean()
@@ -83,7 +83,7 @@ class TestServiceModel:
                 user=profile,
                 name="Interior Cleaning",
                 description="Full interior clean",
-                pricing_type=Service.PRINCING_TYPE_FIXED,
+                pricing_type=Service.PRICING_TYPE_FIXED,
                 base_price=150.00,
                 estimated_time=-90
             ).full_clean()

@@ -43,7 +43,7 @@ def create_service(db):
             user=profile,
             name="Interior Cleaning",
             description="Full interior clean",
-            pricing_type=Service.PRINCING_TYPE_FIXED,
+            pricing_type=Service.PRICING_TYPE_FIXED,
             base_price=150.00,
             estimated_time=90
         )
