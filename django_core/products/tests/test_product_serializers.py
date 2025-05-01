@@ -1,6 +1,5 @@
 import pytest
 from products.serializers import ProductSerializer
-from authentication.models import User, Profile
 from products.models import Product
 
 
