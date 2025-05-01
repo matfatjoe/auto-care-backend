@@ -22,11 +22,10 @@ class TestServiceSerializer:
             ],
         }
 
-        request_mock = type("Request", (), {"user": profile})()
-        serializer = ServiceSerializer(data=data, context={"request": request_mock})
+        serializer = ServiceSerializer(data=data)
 
         assert serializer.is_valid(), serializer.errors
-        service = serializer.save()
+        service = serializer.save(user=profile)
 
         assert service.name == data["name"]
         assert service.user_id == profile.user.id
@@ -35,15 +34,13 @@ class TestServiceSerializer:
         assert service_product.quantity == 2.5
         assert service_product.user_id == profile.user.id
 
-    def test_missing_required_fields_should_fail(self, create_profile):
-        profile = create_profile()
+    def test_missing_required_fields_should_fail(self):
         data = {
             "description": "Full interior clean",
             "pricing_type": Service.PRICING_TYPE_FIXED,
         }
 
-        request_mock = type("Request", (), {"user": profile})()
-        serializer = ServiceSerializer(data=data, context={"request": request_mock})
+        serializer = ServiceSerializer(data=data)
 
         assert not serializer.is_valid()
         assert "name" in serializer.errors
@@ -60,8 +57,7 @@ class TestServiceSerializer:
             (None, False),
         ],
     )
-    def test_pricing_type_validation(self, create_profile, pricing_type, is_valid):
-        profile = create_profile()
+    def test_pricing_type_validation(self, pricing_type, is_valid):
         data = {
             "name": "Test Service",
             "description": "Testing pricing type",
@@ -70,8 +66,7 @@ class TestServiceSerializer:
             "estimated_time": 60,
         }
 
-        request_mock = type("Request", (), {"user": profile})()
-        serializer = ServiceSerializer(data=data, context={"request": request_mock})
+        serializer = ServiceSerializer(data=data)
 
         if is_valid:
             assert serializer.is_valid(), serializer.errors
@@ -79,8 +74,7 @@ class TestServiceSerializer:
             assert not serializer.is_valid()
             assert "pricing_type" in serializer.errors
 
-    def test_negative_price_should_fail(self, create_profile):
-        profile = create_profile()
+    def test_negative_price_should_fail(self):
         data = {
             "name": "Quick Wash",
             "description": "Basic wash",
@@ -89,8 +83,7 @@ class TestServiceSerializer:
             "estimated_time": 30,
         }
 
-        request_mock = type("Request", (), {"user": profile})()
-        serializer = ServiceSerializer(data=data, context={"request": request_mock})
+        serializer = ServiceSerializer(data=data)
 
         assert not serializer.is_valid()
         assert "base_price" in serializer.errors
@@ -110,11 +103,10 @@ class TestServiceSerializer:
             "updated_at": fake_date,
         }
 
-        request_mock = type("Request", (), {"user": profile})()
-        serializer = ServiceSerializer(data=data, context={"request": request_mock})
+        serializer = ServiceSerializer(data=data)
 
         assert serializer.is_valid(), serializer.errors
-        service = serializer.save()
+        service = serializer.save(user=profile)
 
         assert str(service.id) != "fake-id"
         assert UUID(str(service.id))
@@ -135,22 +127,19 @@ class TestServiceSerializer:
             ],
         }
 
-        request_mock = type("Request", (), {"user": profile})()
-        serializer = ServiceSerializer(data=data, context={"request": request_mock})
+        serializer = ServiceSerializer(data=data)
 
         assert serializer.is_valid(), serializer.errors
 
         with pytest.raises(serializers.ValidationError) as error:
-            serializer.save()
+            serializer.save(user=profile)
 
         print(error)
         assert "message" in error.value.detail
         assert error.value.detail["message"] == "One or more products do not exist."
 
     @pytest.mark.parametrize("invalid_quantity", [None, "-1", "0"])
-    def test_invalid_quantity_should_fail(self, create_profile, invalid_quantity):
-        profile = create_profile()
-
+    def test_invalid_quantity_should_fail(self, invalid_quantity):
         data = {
             "name": "Wheel Cleaning",
             "description": "Clean wheels thoroughly",
@@ -165,8 +154,7 @@ class TestServiceSerializer:
             ],
         }
 
-        request_mock = type("Request", (), {"user": profile})()
-        serializer = ServiceSerializer(data=data, context={"request": request_mock})
+        serializer = ServiceSerializer(data=data)
         assert not serializer.is_valid()
         assert "products" in serializer.errors
         assert "Quantity must be greater than 0." in str(serializer.errors["products"])

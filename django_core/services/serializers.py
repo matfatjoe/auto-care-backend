@@ -42,7 +42,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         products_data = validated_data.pop("products", [])
-        user = self.context["request"].user
+        user = validated_data["user"]
 
         product_ids = [p["product"] for p in products_data]
         existing_products = Product.objects.filter(id__in=product_ids).values_list(
@@ -55,7 +55,7 @@ class ServiceSerializer(serializers.ModelSerializer):
                 {"message": "One or more products do not exist."}
             )
 
-        service = Service.objects.create(**validated_data, user=user)
+        service = Service.objects.create(**validated_data)
 
         for product_data in products_data:
             ServiceProduct.objects.create(
