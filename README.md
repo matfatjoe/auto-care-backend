@@ -27,22 +27,22 @@ Este repositório contém a API do **AutoCare**, um sistema voltado para profiss
 
 ## 🔥 Funcionalidades
 
-### 🚧 **Cadastro e Precificação de Serviços**
+### ✔ **Cadastro e Precificação de Serviços**
 - Definir serviços com nome, descrição e preço por hora ou fixo  
 - Cálculo automático do valor final com base no tempo gasto  
 - Uso de produtos vinculado a cada serviço, com controle em ml e desconto no estoque  
 
-### 🚧 **Gestão de Produtos e Acessórios**
+### ✔ **Gestão de Produtos e Acessórios**
 - CRUD de produtos (com nome, descrição e preço da última compra)  
 - Controle de estoque (opcional) e histórico de valores  
 - Cálculo de custo dos serviços com base em insumos utilizados  
 
-### 🔜 **Controle Financeiro**
+### 🚧 **Controle Financeiro**
 - Exibição do faturamento por período  
 - Comparativo entre serviços prestados  
 - Cálculo de lucro líquido com base nos custos dos produtos utilizados  
 
-### 🔜 **Gestão de Clientes e Agendamentos**
+### 🚧 **Gestão de Clientes e Agendamentos**
 - Cadastro de clientes e histórico de atendimentos  
 - Agendamento de serviços com lembretes e organização por horário  
 
