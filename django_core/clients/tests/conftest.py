@@ -2,6 +2,7 @@ import pytest
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
 from authentication.models import Profile
+from clients.models import Client
 
 
 @pytest.fixture
@@ -31,3 +32,20 @@ def create_profile(db, create_user):
         )
 
     return _create_profile
+
+
+@pytest.fixture
+def create_client(create_profile):
+    """Creates a client associated with a user."""
+
+    def _create_client(profile=None):
+        if profile is None:
+            profile = create_profile()
+        return Client.objects.create(
+            user=profile,
+            full_name="John Doe",
+            phone="1111111111",
+            email="johndoe@example.com",
+        )
+
+    return _create_client
